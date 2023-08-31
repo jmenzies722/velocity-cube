@@ -72,6 +72,7 @@ THREE.OrbitControls = function (object, domElement) {
         phiDelta += angle;
     };
 
+	 // Function to zoom in
     this.zoomIn = function (zoomScale) {
         if (zoomScale === undefined) {
             zoomScale = getZoomScale();
@@ -79,6 +80,7 @@ THREE.OrbitControls = function (object, domElement) {
         scale /= zoomScale;
     };
 
+	// Function to zoom out
     this.zoomOut = function (zoomScale) {
         if (zoomScale === undefined) {
             zoomScale = getZoomScale();
@@ -86,6 +88,7 @@ THREE.OrbitControls = function (object, domElement) {
         scale *= zoomScale;
     };
 
+	 // Function to pan the camera
     this.pan = function (distance) {
         distance.transformDirection(this.object.matrix);
         distance.multiplyScalar(scope.userPanSpeed);
@@ -93,6 +96,7 @@ THREE.OrbitControls = function (object, domElement) {
         this.center.add(distance);
     };
 
+	    // Update the camera
     this.update = function () {
         let position = this.object.position;
         let offset = position.clone().sub(this.center);
@@ -162,6 +166,7 @@ THREE.OrbitControls = function (object, domElement) {
         document.addEventListener('mouseup', onMouseUp, false);
     }
 
+	 // Event listener for mouse down event
     function onMouseMove(event) {
         if (scope.enabled === false) return;
         event.preventDefault();
@@ -211,6 +216,7 @@ THREE.OrbitControls = function (object, domElement) {
         }
     }
 
+	 // Event listener for key down event
     function onKeyDown(event) {
         if (scope.enabled === false) return;
         if (scope.userPan === false) return;
@@ -226,7 +232,7 @@ THREE.OrbitControls = function (object, domElement) {
                 break;
         }
     }
-    
+        // Event listener for key up event
     function onKeyUp(event) {
         switch (event.keyCode) {
             case scope.keys.ROTATE:
@@ -236,7 +242,7 @@ THREE.OrbitControls = function (object, domElement) {
                 break;
         }
     }
-
+ 	// Add event listeners
     this.domElement.addEventListener('contextmenu', function (event) { event.preventDefault(); }, false);
     this.domElement.addEventListener('mousedown', onMouseDown, false);
     this.domElement.addEventListener('mousewheel', onMouseWheel, false);
@@ -245,4 +251,5 @@ THREE.OrbitControls = function (object, domElement) {
     window.addEventListener('keyup', onKeyUp, false);
 };
 
+// Set the prototype of OrbitControls to inherit from EventDispatcher
 THREE.OrbitControls.prototype = Object.create(THREE.EventDispatcher.prototype);
