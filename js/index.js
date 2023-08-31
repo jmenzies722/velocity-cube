@@ -7,7 +7,9 @@ let movingCube, collideMeshList = [], cubes = [];
 let crash = false, score = 0, id = 0, crashId = "", lastCrashId = "";
 let scoreText = document.getElementById("score");
 
+// Initialize the scene, camera, and renderer
 init();
+// Start the animation loop
 animate();
 
 function init() {
@@ -30,6 +32,7 @@ function init() {
     container = document.getElementById("ThreeJS");
     container.appendChild(renderer.domElement);
 
+    // Add window resize handling
     THREEx.WindowResize(renderer, camera);
     controls = new THREE.OrbitControls(camera, renderer.domElement);
 
@@ -55,7 +58,6 @@ function init() {
         color: 0x0000ff, // Blue color
         wireframe: false
     });
-    
 
     movingCube = new THREE.Mesh(cubeGeometry, wireMaterial);
     movingCube.position.set(0, 25, -20);
@@ -73,7 +75,9 @@ function update() {
     let moveDistance = 200 * delta;
     let rotateAngle = Math.PI / 2 * delta;
 
+    // Handle keyboard inputs
     if (keyboard.pressed("left") || keyboard.pressed("A")) {
+        // Move left
         if (movingCube.position.x > -270)
             movingCube.position.x -= moveDistance;
         if (camera.position.x > -150) {
@@ -84,6 +88,7 @@ function update() {
         }
     }
     if (keyboard.pressed("right") || keyboard.pressed("D")) {
+        // Move right
         if (movingCube.position.x < 270)
             movingCube.position.x += moveDistance;
         if (camera.position.x < 150) {
@@ -94,27 +99,31 @@ function update() {
         }
     }
     if (keyboard.pressed("up") || keyboard.pressed("W")) {
+        // Move forward
         movingCube.position.z -= moveDistance;
     }
     if (keyboard.pressed("down") || keyboard.pressed("S")) {
+        // Move backward
         movingCube.position.z += moveDistance;
     }
 
     if (!(keyboard.pressed("left") || keyboard.pressed("right") ||
         keyboard.pressed("A") || keyboard.pressed("D"))) {
+        // Reset rotation if no left/right input
         delta = camera.rotation.z;
         camera.rotation.z -= delta / 10;
     }
 
     let originPoint = movingCube.position.clone();
 
+    // Check for collisions with cubes
     for (let vertexIndex = 0; vertexIndex < movingCube.geometry.vertices.length; vertexIndex++) {
         let localVertex = movingCube.geometry.vertices[vertexIndex].clone();
-       let globalVertex = localVertex.applyMatrix4(movingCube.matrix);
-       let directionVector = globalVertex.sub(movingCube.position);
+        let globalVertex = localVertex.applyMatrix4(movingCube.matrix);
+        let directionVector = globalVertex.sub(movingCube.position);
 
-       let ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
-       let collisionResults = ray.intersectObjects(collideMeshList);
+        let ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
+        let collisionResults = ray.intersectObjects(collideMeshList);
         if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
             crash = true;
             crashId = collisionResults[0].object.name;
@@ -123,6 +132,7 @@ function update() {
         crash = false;
     }
 
+    // Handle collisions
     if (crash) {
         movingCube.material.color.setHex(0x346386);
         if (crashId !== lastCrashId) {
@@ -134,10 +144,12 @@ function update() {
         movingCube.material.color.setHex(0x00ff00);
     }
 
+    // Generate random cubes
     if (Math.random() < 0.03 && cubes.length < 30) {
         makeRandomCube();
     }
 
+    // Update cube positions and remove those out of view
     for (var i = 0; i < cubes.length; i++) {
         if (cubes[i].position.z > camera.position.z) {
             scene.remove(cubes[i]);
@@ -148,6 +160,7 @@ function update() {
         }
     }
 
+    // Update the score
     score += 0.1;
     scoreText.innerText = "Score:" + Math.floor(score);
 }
