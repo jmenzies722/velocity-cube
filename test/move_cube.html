@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Move a cube</title>
+    <title>Move a Cube</title>
     <script src="../js/three.min.js"></script>
     <script src="../js/Detector.js"></script>
     <script src="../js/OrbitControls.js"></script>
@@ -16,35 +16,38 @@
         }
         canvas {
             display: block;
-            margin:0 auto;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
     <div id="ThreeJS" style="z-index: 2;"></div>
     <script>
-        // 定义全局变量
+        // Define global variables
         var container, scene, camera, renderer, controls;
         var keyboard = new THREEx.KeyboardState();
-        var clock = new THREE.Clock;
+        var clock = new THREE.Clock();
 
         var movingCube;
 
+        // Initialize the scene, camera, and renderer
         init();
+        // Start the animation loop
         animate();
 
         function init() {
-            // Scene
+            // Create the scene
             scene = new THREE.Scene();
-            // Camera
+
+            // Set up the camera
             var screenWidth = window.innerWidth;
             var screenHeight = window.innerHeight;
-            camera = new THREE.PerspectiveCamera(45, screenWidth/screenHeight, 0.1, 20000);
+            camera = new THREE.PerspectiveCamera(45, screenWidth / screenHeight, 0.1, 20000);
             camera.position.set(0, 150, 400);
 
-            // Renderer
-            if(Detector.webgl) {
-                renderer = new THREE.WebGLRenderer({antialias:true});
+            // Create the renderer
+            if (Detector.webgl) {
+                renderer = new THREE.WebGLRenderer({ antialias: true });
             } else {
                 renderer = new THREE.CanvasRenderer();
             }
@@ -52,10 +55,11 @@
             container = document.getElementById("ThreeJS");
             container.appendChild(renderer.domElement);
 
+            // Enable window resize handling
             THREEx.WindowResize(renderer, camera);
             controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-            // 加入一个平面
+            // Add a ground plane
             var floorMaterial = new THREE.MeshBasicMaterial({
                 color: 0x222222,
                 side: THREE.DoubleSide
@@ -66,8 +70,7 @@
             floor.rotation.x = Math.PI / 2;
             scene.add(floor);
 
-
-            // 加入控制的cube
+            // Add the controlled cube
             var cubeGeometry = new THREE.CubeGeometry(50, 50, 50, 1, 1, 1);
             var wireMaterial = new THREE.MeshBasicMaterial({
                 color: 0x000099,
@@ -77,8 +80,6 @@
             movingCube.position.set(0, 25, 0);
             scene.add(movingCube);
         }
-
-        
 
         function animate() {
             requestAnimationFrame(animate);
@@ -91,13 +92,13 @@
             var moveDistance = 200 * delta;
             var rotateAngle = Math.PI / 2 * delta;
 
+            // Handle keyboard inputs
             if (keyboard.pressed("A")) {
                 movingCube.rotation.y += rotateAngle;
             }
             if (keyboard.pressed("D")) {
-                movingCube.rotation.y += rotateAngle;
+                movingCube.rotation.y -= rotateAngle;
             }
-
             if (keyboard.pressed("left")) {
                 movingCube.position.x -= moveDistance;
             }
@@ -111,6 +112,7 @@
                 movingCube.position.z += moveDistance;
             }
 
+            // Update camera controls
             controls.update();
         }
     </script>
