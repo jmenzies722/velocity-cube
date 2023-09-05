@@ -1,6 +1,13 @@
 body {
   background-color: #000;
   overflow: hidden;
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: flex-start; /* Align at the top */
+  height: 100vh; /* Use the full viewport height */
 }
 
 canvas {
@@ -9,33 +16,32 @@ canvas {
   top: 50px;
 }
 .score-container {
-/*background-color: red;*/
-position: absolute;
-bottom: 88%; /* Adjust this value to control the elevation from the bottom */
-left: 50%;
-transform: translateX(-50%);
-display: flex;
-align-items: center;
-justify-content: center;
-transition: transform 0.5s 4s;
+  display: flex;
+  flex-direction: row; /* Stack elements horizontally */
+  align-items: center; /* Center vertically */
+  text-align: center;
+  margin-top: 30px; /* Adjust the top margin as needed */
 }
 
-.score-container #score {
-color: #00c4e2;
-font-size: 60px;
-font-family: 'Roboto', sans-serif;
-font-weight: 900;
-text-transform: uppercase;
-letter-spacing: 2px;
-text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-transition: all 0.3s ease-in-out;
-padding: 10px 20px;
-border: 2px solid #00c4e2;
-border-radius: 10px;
+.score-container .score,
+.score-container .high-score {
+  color: #00c4e2;
+  font-size: 34px;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+  padding: 10px 20px;
+  border: 2px solid #00c4e2;
+  border-radius: 10px;
+  width: 200px; /* Adjust the width as needed */
+  display: flex; /* Allow the content to be centered */
+  justify-content: center; /* Center the text horizontally */
+  align-items: center; /* Center the text vertically */
+  margin-right: 10px; /* Add some spacing between score and high score */
 }
 
-.score-container #score:hover {
-color: #e72712;
-transform: scale(1.1);
-box-shadow: 0 0 20px rgba(0, 196, 226, 0.72);
+.score-container .high-score {
+  font-size: 20px;
 }

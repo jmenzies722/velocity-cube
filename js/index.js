@@ -7,10 +7,14 @@ let movingCube, collideMeshList = [], cubes = [];
 let crash = false, score = 0, id = 0, crashId = "", lastCrashId = "";
 let scoreText = document.getElementById("score");
 
+
 // Initialize the scene, camera, and renderer
 init();
 // Start the animation loop
 animate();
+
+
+updateHighScore();
 
 function init() {
     // Create the scene
@@ -41,7 +45,7 @@ function init() {
     geometry.vertices.push(new THREE.Vector3(-250, -1, -3000));
     geometry.vertices.push(new THREE.Vector3(-300, -1, 200));
     let material = new THREE.LineBasicMaterial({
-        color: 0x6699FF, linewidth: 5, fog: true
+        color: 0x0000FFF, linewidth: 5, fog: true
     });
     let line1 = new THREE.Line(geometry, material);
     scene.add(line1);
@@ -55,7 +59,7 @@ function init() {
     // Add the controlled cube
     let cubeGeometry = new THREE.CubeGeometry(50, 25, 60, 5, 5, 5);
     let wireMaterial = new THREE.MeshBasicMaterial({
-        color: 0x0000ff, // Blue color
+        color: 0x80461B,
         wireframe: false
     });
 
@@ -74,6 +78,7 @@ function update() {
     let delta = clock.getDelta();
     let moveDistance = 200 * delta;
     let rotateAngle = Math.PI / 2 * delta;
+    let gameOver = false;
 
     // Handle keyboard inputs
     if (keyboard.pressed("left") || keyboard.pressed("A")) {
@@ -132,17 +137,33 @@ function update() {
         crash = false;
     }
 
-    // Handle collisions
-    if (crash) {
-        movingCube.material.color.setHex(0x346386);
-        if (crashId !== lastCrashId) {
-            score -= 100;
-            lastCrashId = crashId;
-        }
-        document.getElementById('explode_sound').play();
-    } else {
-        movingCube.material.color.setHex(0x00ff00);
+   // Handle collisions
+if (crash) {
+    // Change cube color to indicate collision
+    movingCube.material.color.setHex(0x346386);
+
+    // Check if the current score is higher than the stored high score
+    let highScore = localStorage.getItem("highScore");
+    if (score > highScore || highScore === null) {
+        // Update the high score in local storage
+        localStorage.setItem("highScore", score);
     }
+
+    // Reload the page after 2 seconds
+    setTimeout(function () {
+        location.reload();
+    },);
+} else {
+    // Change cube color to indicate normal state
+    movingCube.material.color.setHex(0xADD8E6);
+}
+
+  // Check if the current score is higher than the stored high score
+  let highScore = localStorage.getItem("highScore");
+  if (score > highScore || highScore === null) {
+      // Update the high score in local storage
+      localStorage.setItem("highScore", score);
+  }
 
     // Generate random cubes
     if (Math.random() < 0.03 && cubes.length < 30) {
@@ -162,8 +183,17 @@ function update() {
 
     // Update the score
     score += 0.1;
-    scoreText.innerText = "Score:" + Math.floor(score);
+    scoreText.innerText = "Score: " + Math.floor(score);
 }
+
+// Function to update the high score display
+function updateHighScore() {
+    let highScoreElement = document.getElementById("high-score");
+    let highScore = localStorage.getItem("highScore") || 0; // Get the high score from local storage or set to 0 if it doesn't exist
+    highScore = Math.round(parseFloat(highScore));
+    highScoreElement.innerText = "High Score: " + highScore;
+}
+
 
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
@@ -179,7 +209,7 @@ function makeRandomCube() {
         c = 1 * 50;
     let geometry = new THREE.CubeGeometry(a, b, c);
     let material = new THREE.MeshBasicMaterial({
-        color: Math.random() * 0xffffff,
+        color: Math.random() * 0x80461B,
         size: 3
     });
 
