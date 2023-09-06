@@ -7,12 +7,10 @@ let movingCube, collideMeshList = [], cubes = [];
 let crash = false, score = 0, id = 0, crashId = "", lastCrashId = "";
 let scoreText = document.getElementById("score");
 
-
 // Initialize the scene, camera, and renderer
 init();
 // Start the animation loop
 animate();
-
 
 updateHighScore();
 
@@ -40,12 +38,14 @@ function init() {
     THREEx.WindowResize(renderer, camera);
     controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-    // Add two lines
+    // Add two lines with neon purple color
     let geometry = new THREE.Geometry();
     geometry.vertices.push(new THREE.Vector3(-250, -1, -3000));
     geometry.vertices.push(new THREE.Vector3(-300, -1, 200));
     let material = new THREE.LineBasicMaterial({
-        color: 0x0000FFF, linewidth: 5, fog: true
+        color: 0xFFFFFF,
+        linewidth: 5,
+        fog: true
     });
     let line1 = new THREE.Line(geometry, material);
     scene.add(line1);
@@ -56,10 +56,10 @@ function init() {
     let line2 = new THREE.Line(geometry, material);
     scene.add(line2);
 
-    // Add the controlled cube
+    // Add the controlled cube with neon green color
     let cubeGeometry = new THREE.CubeGeometry(50, 25, 60, 5, 5, 5);
     let wireMaterial = new THREE.MeshBasicMaterial({
-        color: 0x80461B,
+        color: 0xFF6EFF, // Neon green color
         wireframe: false
     });
 
@@ -183,7 +183,7 @@ if (crash) {
 
     // Update the score
     score += 0.1;
-    scoreText.innerText = "Score: " + Math.floor(score);
+    scoreText.innerText = "Score:" + Math.floor(score);
 }
 
 // Function to update the high score display
@@ -215,7 +215,7 @@ function makeRandomCube() {
 
     let object = new THREE.Mesh(geometry, material);
     let box = new THREE.BoxHelper(object);
-    box.material.color.setHex(0xff0000);
+    box.material.color.setHex(0xBF3EFF);
 
     box.position.x = getRandomArbitrary(-250, 250);
     box.position.y = 1 + b / 2;

@@ -25,17 +25,17 @@ canvas {
 
 .score-container .score,
 .score-container .high-score {
-  color: #00c4e2;
-  font-size: 34px;
+  color: #e200b5;
+  font-size: 30px;
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
   letter-spacing: 2px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease-in-out;
   padding: 10px 20px;
-  border: 2px solid #00c4e2;
+  border: 2px solid #c400e2;
   border-radius: 10px;
-  width: 200px; /* Adjust the width as needed */
+  width: 150px; /* Adjust the width as needed */
   display: flex; /* Allow the content to be centered */
   justify-content: center; /* Center the text horizontally */
   align-items: center; /* Center the text vertically */
@@ -43,5 +43,5 @@ canvas {
 }
 
 .score-container .high-score {
-  font-size: 20px;
+  font-size: 16px;
 }
