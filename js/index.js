@@ -7,12 +7,17 @@ let movingCube, collideMeshList = [], cubes = [];
 let crash = false, score = 0, id = 0, crashId = "", lastCrashId = "";
 let scoreText = document.getElementById("score");
 
+let currentLevel = 1; // Track the current level
+let cubesPerLevel = 10; // Number of cubes to generate per level
+let cubeSpeed = 5; // Initial cube speed (adjusted for slower start)
+let lastLevelUpdateScore = 0; // Track the last score when the level was updated
+
 // Initialize the scene, camera, and renderer
 init();
 // Start the animation loop
 animate();
 
-updateHighScore();
+updateHighScore(); // Display high score at the beginning
 
 function init() {
     // Create the scene
@@ -21,7 +26,7 @@ function init() {
     // Set up the camera
     let screenWidth = window.innerWidth;
     let screenHeight = window.innerHeight;
-    camera = new THREE.PerspectiveCamera(45, screenWidth / screenHeight, 1, 20000);
+    camera = new THREE.PerspectiveCamera(45, screenWidth / screenHeight, 2, 20000);
     camera.position.set(0, 170, 400);
 
     // Create the renderer
@@ -57,7 +62,7 @@ function init() {
     scene.add(line2);
 
     // Add the controlled cube with neon green color
-    let cubeGeometry = new THREE.CubeGeometry(50, 25, 60, 5, 5, 5);
+    let cubeGeometry = new THREE.CubeGeometry(50, 25, 50, 10, 5, 5);
     let wireMaterial = new THREE.MeshBasicMaterial({
         color: 0xFF6EFF, // Neon green color
         wireframe: false
@@ -72,6 +77,14 @@ function animate() {
     requestAnimationFrame(animate);
     update();
     renderer.render(scene, camera);
+}
+
+// Function to update the level display
+// Function to update the level display
+// Function to update the level display
+function updateLevelDisplay() {
+    let levelDisplay = document.getElementById("current-level");
+    levelDisplay.innerText = currentLevel;
 }
 
 function update() {
@@ -158,6 +171,7 @@ if (crash) {
     movingCube.material.color.setHex(0xADD8E6);
 }
 
+
   // Check if the current score is higher than the stored high score
   let highScore = localStorage.getItem("highScore");
   if (score > highScore || highScore === null) {
@@ -185,6 +199,30 @@ if (crash) {
     score += 0.1;
     scoreText.innerText = "Score:" + Math.floor(score);
 }
+// Inside the update function, update the level when the score reaches a milestone
+if (Math.floor(score) % 100 === 0 && currentLevel < (Math.floor(score) / 100)) {
+    currentLevel = Math.floor(score) / 100;
+    cubesPerLevel += 5; // Increase difficulty for the next level
+    cubeSpeed += 2; // Increase cube speed for the next level
+    updateLevelDisplay();
+}
+
+
+// Generate random cubes for the current level
+if (Math.random() < 0.03 && cubes.length < cubesPerLevel) {
+    makeRandomCube();
+}
+
+// Update cube positions and speed
+for (let i = 0; i < cubes.length; i++) {
+    if (cubes[i].position.z > camera.position.z) {
+        scene.remove(cubes[i]);
+        cubes.splice(i, 1);
+        collideMeshList.splice(i, 1);
+    } else {
+        cubes[i].position.z += cubeSpeed; // Increase cube speed
+    }
+}
 
 // Function to update the high score display
 function updateHighScore() {
@@ -193,7 +231,6 @@ function updateHighScore() {
     highScore = Math.round(parseFloat(highScore));
     highScoreElement.innerText = "High Score: " + highScore;
 }
-
 
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
@@ -226,4 +263,35 @@ function makeRandomCube() {
     collideMeshList.push(box);
 
     scene.add(box);
+}
+
+// Function to reset the game for the next level
+function resetGame() {
+    // Remove all existing cubes and clear collision list
+    for (let i = 0; i < cubes.length; i++) {
+        scene.remove(cubes[i]);
+    }
+    cubes = [];
+    collideMeshList = [];
+
+    // Reset player position and cube color
+    movingCube.position.set(0, 25, -20);
+    movingCube.material.color.setHex(0xFF6EFF); // Neon green color
+
+    // Update the score display
+    score = 0;
+    scoreText.innerText = "Score: " + Math.floor(score);
+
+    // Update the level display and object frequency
+    updateLevelDisplay();
+
+    // Start generating cubes for the next level
+    for (let i = 0; i < cubesPerLevel; i++) {
+        makeRandomCube();
+    }
+}
+
+// Function to update the level display
+function updateLevelDisplay() {
+    levelDisplay.innerText = "Level: " + currentLevel;
 }
