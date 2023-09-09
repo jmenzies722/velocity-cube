@@ -186,7 +186,7 @@ function update() {
         // Reload the page after 2 seconds
         setTimeout(function () {
             location.reload();
-        }, 2000);
+        });
     } else {
         // Change cube color to indicate normal state
         movingCube.material.color.setHex(0x00FFFF);
