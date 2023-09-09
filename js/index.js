@@ -12,12 +12,30 @@ let cubesPerLevel = 10; // Number of cubes to generate per level
 let cubeSpeed = 5; // Initial cube speed (adjusted for slower start)
 let lastLevelUpdateScore = 0; // Track the last score when the level was updated
 
+// Flag to track if the game is paused
+let paused = false;
+
 // Initialize the scene, camera, and renderer
 init();
 // Start the animation loop
 animate();
 
 updateHighScore(); // Display high score at the beginning
+
+// Function to toggle between pause and play
+function togglePause() {
+    paused = !paused;
+    if (paused) {
+        // Pause the game
+        document.getElementById("pause-button").innerText = "Play";
+    } else {
+        // Resume the game
+        document.getElementById("pause-button").innerText = "Pause";
+    }
+}
+
+// Add event listener for the pause/play button
+document.getElementById("pause-button").addEventListener("click", togglePause);
 
 function init() {
     // Create the scene
@@ -75,16 +93,19 @@ function init() {
 
 function animate() {
     requestAnimationFrame(animate);
-    update();
+
+    // Check if the game is paused
+    if (!paused) {
+        update(); // Only update if the game is not paused
+    }
+
     renderer.render(scene, camera);
 }
 
 // Function to update the level display
-// Function to update the level display
-// Function to update the level display
 function updateLevelDisplay() {
-    let levelDisplay = document.getElementById("current-level");
-    levelDisplay.innerText = currentLevel;
+    let levelDisplay = document.getElementById("level-text");
+    levelDisplay.innerText = "Level: " + currentLevel;
 }
 
 function update() {
@@ -150,34 +171,38 @@ function update() {
         crash = false;
     }
 
-   // Handle collisions
-if (crash) {
-    // Change cube color to indicate collision
-    movingCube.material.color.setHex(0x346386);
+    // Handle collisions
+    if (crash) {
+        // Change cube color to indicate collision
+        movingCube.material.color.setHex(0x346386);
 
-    // Check if the current score is higher than the stored high score
-    let highScore = localStorage.getItem("highScore");
-    if (score > highScore || highScore === null) {
-        // Update the high score in local storage
-        localStorage.setItem("highScore", score);
+        // Check if the current score is higher than the stored high score
+        let highScore = localStorage.getItem("highScore");
+        if (score > highScore || highScore === null) {
+            // Update the high score in local storage
+            localStorage.setItem("highScore", score);
+        }
+
+        // Reload the page after 2 seconds
+        setTimeout(function () {
+            location.reload();
+        }, 2000);
+    } else {
+        // Change cube color to indicate normal state
+        movingCube.material.color.setHex(0x00FFFF);
     }
 
-    // Reload the page after 2 seconds
-    setTimeout(function () {
-        location.reload();
-    },);
-} else {
-    // Change cube color to indicate normal state
-    movingCube.material.color.setHex(0xADD8E6);
-}
+    // Update the score
+    score += 0.1;
+    scoreText.innerText = "Score:" + Math.floor(score);
 
-
-  // Check if the current score is higher than the stored high score
-  let highScore = localStorage.getItem("highScore");
-  if (score > highScore || highScore === null) {
-      // Update the high score in local storage
-      localStorage.setItem("highScore", score);
-  }
+    // Inside the update function, update the level when the score reaches a milestone
+    if (Math.floor(score) % 50 === 0 && currentLevel < Math.floor(score) / 50) {
+        currentLevel = Math.floor(score) / 50;
+        cubesPerLevel += 5; // Increase difficulty for the next level
+        cubeSpeed += 2; // Increase cube speed for the next level
+        updateLevelDisplay();
+    }
 
     // Generate random cubes
     if (Math.random() < 0.03 && cubes.length < 30) {
@@ -194,40 +219,11 @@ if (crash) {
             cubes[i].position.z += 10;
         }
     }
-
-    // Update the score
-    score += 0.1;
-    scoreText.innerText = "Score:" + Math.floor(score);
-}
-// Inside the update function, update the level when the score reaches a milestone
-if (Math.floor(score) % 100 === 0 && currentLevel < (Math.floor(score) / 100)) {
-    currentLevel = Math.floor(score) / 100;
-    cubesPerLevel += 5; // Increase difficulty for the next level
-    cubeSpeed += 2; // Increase cube speed for the next level
-    updateLevelDisplay();
 }
 
-
-// Generate random cubes for the current level
-if (Math.random() < 0.03 && cubes.length < cubesPerLevel) {
-    makeRandomCube();
-}
-
-// Update cube positions and speed
-for (let i = 0; i < cubes.length; i++) {
-    if (cubes[i].position.z > camera.position.z) {
-        scene.remove(cubes[i]);
-        cubes.splice(i, 1);
-        collideMeshList.splice(i, 1);
-    } else {
-        cubes[i].position.z += cubeSpeed; // Increase cube speed
-    }
-}
-
-// Function to update the high score display
 function updateHighScore() {
     let highScoreElement = document.getElementById("high-score");
-    let highScore = localStorage.getItem("highScore") || 0; // Get the high score from local storage or set to 0 if it doesn't exist
+    let highScore = localStorage.getItem("highScore") || 0;
     highScore = Math.round(parseFloat(highScore));
     highScoreElement.innerText = "High Score: " + highScore;
 }
@@ -252,7 +248,7 @@ function makeRandomCube() {
 
     let object = new THREE.Mesh(geometry, material);
     let box = new THREE.BoxHelper(object);
-    box.material.color.setHex(0xBF3EFF);
+    box.material.color.setHex(0xFF0000);
 
     box.position.x = getRandomArbitrary(-250, 250);
     box.position.y = 1 + b / 2;
@@ -265,7 +261,7 @@ function makeRandomCube() {
     scene.add(box);
 }
 
-// Function to reset the game for the next level
+// Reset the game for the next level
 function resetGame() {
     // Remove all existing cubes and clear collision list
     for (let i = 0; i < cubes.length; i++) {
@@ -276,7 +272,7 @@ function resetGame() {
 
     // Reset player position and cube color
     movingCube.position.set(0, 25, -20);
-    movingCube.material.color.setHex(0xFF6EFF); // Neon green color
+    movingCube.material.color.setHex(0xFF6EFF);
 
     // Update the score display
     score = 0;
@@ -291,7 +287,5 @@ function resetGame() {
     }
 }
 
-// Function to update the level display
-function updateLevelDisplay() {
-    levelDisplay.innerText = "Level: " + currentLevel;
-}
+// Initialize the level display
+updateLevelDisplay();

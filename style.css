@@ -24,8 +24,10 @@ canvas {
 }
 
 .score-container .score,
-.score-container .high-score {
-  color: #e200b5;
+.score-container .high-score,
+.score-container #level-text /* Apply styling to the level text */
+{
+  color: #00b9e2;
   font-size: 30px;
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
@@ -33,7 +35,7 @@ canvas {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease-in-out;
   padding: 10px 20px;
-  border: 2px solid #c400e2;
+  border: 2px solid #e20000;
   border-radius: 10px;
   width: 150px; /* Adjust the width as needed */
   display: flex; /* Allow the content to be centered */
@@ -46,13 +48,43 @@ canvas {
   font-size: 16px;
 }
 
-.overlay {
+#pause-button {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
+  top: 10px;
+  right: 10px;
+  color: #db3487;
+  border: 2px solid #e20000;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
   font-size: 18px;
+}
+
+#pause-button {
+  background: none; /* Make the background transparent */
+  color: #00b9e2;
+  font-size: 20px;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+  padding: 10px 20px;
+  border: 2px solid #e20000;
+  border-radius: 10px;
+  width: 150px; /* Adjust the width as needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+
+#pause-button:hover {
+  /* Define the styles for the hover effect */
+  background-color: #00b9e2; /* Change the background color on hover */
+  color: #000; /* Change the text color on hover */
+  text-shadow: none; /* Remove the text shadow on hover */
+  border-color: #fff; /* Change the border color on hover */
 }
