@@ -27,7 +27,7 @@ canvas {
 .score-container .high-score,
 .score-container #level-text /* Apply styling to the level text */
 {
-  color: #00b9e2;
+  color: #1660af;
   font-size: 30px;
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
@@ -52,7 +52,6 @@ canvas {
   position: absolute;
   top: 10px;
   right: 10px;
-  color: #db3487;
   border: 2px solid #e20000;
   border: none;
   padding: 10px 20px;
@@ -62,7 +61,7 @@ canvas {
 
 #pause-button {
   background: none; /* Make the background transparent */
-  color: #00b9e2;
+  color: #1660af;
   font-size: 20px;
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
