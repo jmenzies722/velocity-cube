@@ -1,3 +1,4 @@
+
 // Global variables
 let container, scene, camera, renderer, controls;
 let keyboard = new THREEx.KeyboardState();
@@ -11,7 +12,6 @@ let currentLevel = 1; // Track the current level
 let cubesPerLevel = 10; // Number of cubes to generate per level
 let cubeSpeed = 5; // Initial cube speed (adjusted for slower start)
 let lastLevelUpdateScore = 0; // Track the last score when the level was updated
-
 // Flag to track if the game is paused
 let paused = false;
 
@@ -21,21 +21,6 @@ init();
 animate();
 
 updateHighScore(); // Display high score at the beginning
-
-// Function to toggle between pause and play
-function togglePause() {
-    paused = !paused;
-    if (paused) {
-        // Pause the game
-        document.getElementById("pause-button").innerText = "Play";
-    } else {
-        // Resume the game
-        document.getElementById("pause-button").innerText = "Pause";
-    }
-}
-
-// Add event listener for the pause/play button
-document.getElementById("pause-button").addEventListener("click", togglePause);
 
 function init() {
     // Create the scene
@@ -289,3 +274,4 @@ function resetGame() {
 
 // Initialize the level display
 updateLevelDisplay();
+

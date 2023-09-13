@@ -1,5 +1,5 @@
 body {
-  background-color: #000;
+  background-color: #000000;
   overflow: hidden;
   margin: 0; /* Remove default margin */
   padding: 0; /* Remove default padding */
@@ -20,14 +20,14 @@ canvas {
   flex-direction: row; /* Stack elements horizontally */
   align-items: center; /* Center vertically */
   text-align: center;
-  margin-top: 30px; /* Adjust the top margin as needed */
+  margin-top: 10px; /* Adjust the top margin as needed */
 }
 
 .score-container .score,
 .score-container .high-score,
 .score-container #level-text /* Apply styling to the level text */
 {
-  color: #1660af;
+  color: #0aebc5;
   font-size: 30px;
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
@@ -35,7 +35,7 @@ canvas {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease-in-out;
   padding: 10px 20px;
-  border: 2px solid #e20000;
+  border: 2px solid #00e2b5ca;
   border-radius: 10px;
   width: 150px; /* Adjust the width as needed */
   display: flex; /* Allow the content to be centered */
@@ -86,4 +86,35 @@ canvas {
   color: #000; /* Change the text color on hover */
   text-shadow: none; /* Remove the text shadow on hover */
   border-color: #fff; /* Change the border color on hover */
+}
+
+/* Add these styles to match your existing CSS */
+
+/* ... (Your existing CSS styles) ... */
+
+.styled-button {
+  background: none;
+  color: #ffffff;
+  font-size: 10px;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+  padding: 10px 20px;
+  border: 2px solid  #00e2b5ca;
+  border-radius: 10px;
+  width: 200px; /* Adjust the width as needed */
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px; /* Adjust the top margin as needed */
+}
+
+.styled-button:hover {
+  background-color: #00b9e2;
+  color: #000;
+  text-shadow: none;
+  border-color: #fff;
 }
