@@ -1,3 +1,5 @@
+// Actual Hosted Site using GH pages: https://jmenzies722.github.io/velocity-cube/
+
 // Global variables
 let container, scene, camera, renderer, controls;
 let keyboard = new THREEx.KeyboardState();

@@ -1,29 +1,8 @@
 var THREEx = THREEx || {};
-
 /**
  * THREEx.KeyboardState.js keeps track of the current state of the keyboard.
  * It allows querying the keyboard state at any time without the need for events.
- * This is particularly useful in loop-driven applications, such as 3D demos or games.
- *
- * Usage:
- *
- * Step 1: Create the object
- *
- * var keyboard = new THREEx.KeyboardState();
- *
- * Step 2: Query the keyboard state
- *
- * This will return true if shift and A are pressed, false otherwise:
- *
- * keyboard.pressed("shift+A")
- *
- * Step 3: Stop listening to the keyboard
- *
- * keyboard.destroy();
- *
- * NOTE: This library may be useful as a standalone library, independent from three.js.
- * You can rename it to "keyboardForGame".
- */
+ * This is particularly useful in loop-driven applications, such as 3D demos or games.*/
 
 THREEx.KeyboardState = function () {
     // To store the current state
