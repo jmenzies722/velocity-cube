@@ -2,15 +2,6 @@
 
 **Endless Cube Runner** is an exhilarating 3D endless runner game that challenges your reflexes and coordination. Control a cube as it races through a never-ending obstacle course. The game features stunning graphics, intuitive controls, and an infinite array of challenges to test your skills.
 
-## Table of Contents 📜
-
-- [Demo](#demo)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## Demo 🕹️
 
 Explore a live demo of the game [here](https://jmenzies722.github.io/velocity-cube/).
