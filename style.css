@@ -59,39 +59,6 @@ canvas {
   font-size: 18px;
 }
 
-#pause-button {
-  background: none; /* Make the background transparent */
-  color: #1660af;
-  font-size: 20px;
-  font-family: 'Roboto', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease-in-out;
-  padding: 10px 20px;
-  border: 2px solid #e20000;
-  border-radius: 10px;
-  width: 150px; /* Adjust the width as needed */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 10px;
-  transition: all 0.3s ease-in-out;
-}
-
-
-#pause-button:hover {
-  /* Define the styles for the hover effect */
-  background-color: #00b9e2; /* Change the background color on hover */
-  color: #000; /* Change the text color on hover */
-  text-shadow: none; /* Remove the text shadow on hover */
-  border-color: #fff; /* Change the border color on hover */
-}
-
-/* Add these styles to match your existing CSS */
-
-/* ... (Your existing CSS styles) ... */
-
 .styled-button {
   background: none;
   color: #ffffff;
