@@ -1,4 +1,3 @@
-
 // Global variables
 let container, scene, camera, renderer, controls;
 let keyboard = new THREEx.KeyboardState();
@@ -12,8 +11,8 @@ let currentLevel = 1; // Track the current level
 let cubesPerLevel = 10; // Number of cubes to generate per level
 let cubeSpeed = 5; // Initial cube speed (adjusted for slower start)
 let lastLevelUpdateScore = 0; // Track the last score when the level was updated
-// Flag to track if the game is paused
-let paused = false;
+let paused = false; // Flag to track if the game is paused
+
 
 // Initialize the scene, camera, and renderer
 init();
@@ -33,11 +32,7 @@ function init() {
     camera.position.set(0, 170, 400);
 
     // Create the renderer
-    if (Detector.webgl) {
-        renderer = new THREE.WebGLRenderer({ antialias: true });
-    } else {
-        renderer = new THREE.CanvasRenderer();
-    }
+    renderer = Detector.webgl ? new THREE.WebGLRenderer({ antialias: true }) : new THREE.CanvasRenderer();
     renderer.setSize(screenWidth * 0.85, screenHeight * 0.85);
     container = document.getElementById("ThreeJS");
     container.appendChild(renderer.domElement);
@@ -195,7 +190,7 @@ function update() {
     }
 
     // Update cube positions and remove those out of view
-    for (var i = 0; i < cubes.length; i++) {
+    for (let i = 0; i < cubes.length; i++) {
         if (cubes[i].position.z > camera.position.z) {
             scene.remove(cubes[i]);
             cubes.splice(i, 1);
@@ -233,7 +228,7 @@ function makeRandomCube() {
 
     let object = new THREE.Mesh(geometry, material);
     let box = new THREE.BoxHelper(object);
-    box.material.color.setHex(0xFF0000);
+    box.material.color.setHex(0xFF00FF);
 
     box.position.x = getRandomArbitrary(-250, 250);
     box.position.y = 1 + b / 2;
@@ -245,33 +240,5 @@ function makeRandomCube() {
 
     scene.add(box);
 }
-
-// Reset the game for the next level
-function resetGame() {
-    // Remove all existing cubes and clear collision list
-    for (let i = 0; i < cubes.length; i++) {
-        scene.remove(cubes[i]);
-    }
-    cubes = [];
-    collideMeshList = [];
-
-    // Reset player position and cube color
-    movingCube.position.set(0, 25, -20);
-    movingCube.material.color.setHex(0xFF6EFF);
-
-    // Update the score display
-    score = 0;
-    scoreText.innerText = "Score: " + Math.floor(score);
-
-    // Update the level display and object frequency
-    updateLevelDisplay();
-
-    // Start generating cubes for the next level
-    for (let i = 0; i < cubesPerLevel; i++) {
-        makeRandomCube();
-    }
-}
-
 // Initialize the level display
 updateLevelDisplay();
-
