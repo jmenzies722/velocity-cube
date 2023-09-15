@@ -39,7 +39,6 @@ function signOut() {
   }
 }
 
-
 function signInWithGoogle() {
   // Create a new instance of GoogleAuthProvider
   const provider = new GoogleAuthProvider();
@@ -58,6 +57,7 @@ function signInWithGoogle() {
       console.error('Error signing in with Google:', error);
     });
 }
+
 
 // Export the signOut function
 export { signInWithGoogle, signOut };
