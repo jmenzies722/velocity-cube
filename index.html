@@ -10,13 +10,18 @@
     <script src="js/THREEx.FullScreen.js"></script>
     <script src="js/THREEx.WindowResize.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
 </head>
 <body>
     <div class="start-screen">
         <div class="blurry-background"></div>
         <div class="play-button-container">
             <div class="title">Velocity Cube</div>
-            <button id="play-button">Play Now</button>
+            <button id="google-sign" onclick="signInWithGoogle()">
+                <i class="fab fa-google"></i> Sign With Google To Play Now
+            </button>
         </div>
     </div>
     
@@ -30,14 +35,9 @@
         </div>
         <div id="ThreeJS"></div>
         <audio src="sound/explode.mp3" preload="auto" id="explode_sound"></audio>
+        <button id="sign-out">Sign Out</button>
     </div>
-
-    <script src="js/index.js"></script>
-    <script>
-        document.getElementById("play-button").addEventListener("click", function() {
-            document.querySelector(".start-screen").style.display = "none";
-            document.querySelector(".game-screen").style.display = "block";
-        });
-    </script>
+    <script type="module" src="js/firebaseConfig.js"></script>
+    <script type="module" src="js/index.js"></script>
 </body>
 </html>

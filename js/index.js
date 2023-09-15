@@ -1,4 +1,15 @@
+
 // Actual Hosted Site using GH pages: https://jmenzies722.github.io/velocity-cube/
+import { initializeApp } from "firebase/app";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { signInWithGoogle, signOut } from "./firebaseConfig";
+import { getDocs } from "firebase/firestore";
+import { db } from "./firebaseConfig";
+import { collection } from "firebase/firestore";
+import { query } from "firebase/firestore";
+import { orderBy } from "firebase/firestore";
+import { limit } from "firebase/firestore";
+
 
 // Global variables
 let container, scene, camera, renderer, controls;
@@ -8,21 +19,57 @@ let clock = new THREE.Clock();
 let movingCube, collideMeshList = [], cubes = [];
 let crash = false, score = 0, id = 0, crashId = "", lastCrashId = "";
 let scoreText = document.getElementById("score");
-
 let currentLevel = 1; // Track the current level
 let cubesPerLevel = 10; // Number of cubes to generate per level
 let cubeSpeed = 5; // Initial cube speed (adjusted for slower start)
 let lastLevelUpdateScore = 0; // Track the last score when the level was updated
 let paused = false; // Flag to track if the game is paused
 
+const gameScreen = document.querySelector('.game-screen');
+const startScreen = document.querySelector('.start-screen');
+const signOutButton = document.getElementById('sign-out'); // Add a sign-out button
 
-// Initialize the scene, camera, and renderer
-init();
-// Start the animation loop
+
+const googleSignInButton = document.getElementById('google-sign');
+googleSignInButton.addEventListener('click', () => {
+   signInWithGoogle();
+  });
+
+  signOutButton.addEventListener('click', () => {
+    signOut(); // Call the signOut function when the sign-out button is clicked
+ });
+
+ const auth = getAuth();
+
+ onAuthStateChanged(auth, (user) => {
+   if (user) {
+     // User is signed in.
+     console.log('User is signed in:', user);
+ 
+     // Hide the sign-in screen
+     startScreen.style.display = 'none';
+ 
+     // Show the game screen
+     gameScreen.style.display = 'block';
+ 
+     // Call your game initialization function here, if needed.
+     init();
+     retrieveAndDisplayHighScores();
+   } else {
+     // No user is signed in. Keep the sign-in screen visible.
+     console.log('No user is signed in');
+ 
+     // Hide the game screen
+     gameScreen.style.display = 'none';
+ 
+     // Show the sign-in screen
+     startScreen.style.display = 'block';
+   }
+ });
+ 
 animate();
 
 updateHighScore(); // Display high score at the beginning
-
 function init() {
     // Create the scene
     scene = new THREE.Scene();
@@ -72,6 +119,8 @@ function init() {
     movingCube.position.set(0, 25, -20);
     scene.add(movingCube);
 }
+
+updateHighScore(); 
 
 function animate() {
     requestAnimationFrame(animate);
@@ -153,38 +202,41 @@ function update() {
         crash = false;
     }
 
-    // Handle collisions
     if (crash) {
+        // Call the resetGame function to reset the game
+        resetGame();
+    
         // Change cube color to indicate collision
         movingCube.material.color.setHex(0x346386);
-
+    
         // Check if the current score is higher than the stored high score
         let highScore = localStorage.getItem("highScore");
         if (score > highScore || highScore === null) {
             // Update the high score in local storage
             localStorage.setItem("highScore", score);
         }
-
-        // Reload the page after 2 seconds
-        setTimeout(function () {
-            location.reload();
-        });
     } else {
         // Change cube color to indicate normal state
         movingCube.material.color.setHex(0x00FFFF);
     }
-
+    
     // Update the score
     score += 0.1;
     scoreText.innerText = "Score:" + Math.floor(score);
 
-    // Inside the update function, update the level when the score reaches a milestone
     if (Math.floor(score) % 50 === 0 && currentLevel < Math.floor(score) / 50) {
         currentLevel = Math.floor(score) / 50;
         cubesPerLevel += 5; // Increase difficulty for the next level
         cubeSpeed += 2; // Increase cube speed for the next level
         updateLevelDisplay();
-    }
+      
+        // Assuming you have a way to identify the user (e.g., through authentication)
+        const user = auth.currentUser;
+        if (user) {
+          const userId = user.uid; // Use the user's UID as the document ID
+          updateHighScoreInFirestore(userId, Math.floor(score)); // Update or store high score in Firestore
+        }
+      }
 
     // Generate random cubes
     if (Math.random() < 0.03 && cubes.length < 30) {
@@ -244,3 +296,86 @@ function makeRandomCube() {
 }
 // Initialize the level display
 updateLevelDisplay();
+
+function resetGame() {
+    // Reset game variables
+    score = 0;
+    currentLevel = 1;
+    cubesPerLevel = 10;
+    cubeSpeed = 5;
+    lastLevelUpdateScore = 0;
+    crash = false;
+    scoreText.innerText = "Score: 0";
+    updateLevelDisplay();
+
+    // Remove all cubes from the scene
+    for (const cube of cubes) {
+        scene.remove(cube);
+    }
+    cubes = [];
+    collideMeshList = [];
+
+    // Reset cube material color
+    movingCube.material.color.setHex(0xFF6EFF);
+
+    // Center the camera and movingCube
+    camera.position.set(0, 170, 400);
+    movingCube.position.set(0, 25, -20);
+
+    // Reset camera rotation
+    camera.rotation.set(0, 0, 0);
+
+    // Restart the game loop
+    paused = false;
+}
+
+async function retrieveHighScoresFromFirestore() {
+    const highScoresCollection = collection(db, "highScores");
+    const highScoresQuery = query(highScoresCollection, orderBy("score", "desc"), limit(10));
+  
+    const highScoresSnapshot = await getDocs(highScoresQuery);
+  
+    const highScores = [];
+    highScoresSnapshot.forEach((doc) => {
+      const userData = doc.data();
+      highScores.push({ userId: doc.id, score: userData.score });
+    });
+  
+    return highScores;
+  }
+
+  async function retrieveAndDisplayHighScores() {
+    try {
+      const highScores = await retrieveHighScoresFromFirestore();
+  
+      // Assuming you have an HTML element with the id 'high-score' to display the scores.
+      const highScoreContainer = document.getElementById('high-score');
+      
+      // Assuming you have an HTML element with the id 'score-text' to display the high score.
+      const scoreTextElement = document.getElementById('score');
+  
+      // Get the highest score from the retrieved high scores.
+      const highestScore = highScores.length > 0 ? highScores[0].score : 0;
+  
+      // Display the high score in your score container.
+      scoreTextElement.innerText = "High Score: " + highestScore;
+  
+      // Clear the previous high scores
+      highScoreContainer.innerHTML = '';
+  
+      // Create an ordered list to display the high scores
+      const highScoreList = document.createElement('ol');
+      
+      // Display the high scores
+      highScores.forEach((scoreData, index) => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `${scoreData.userId}: ${scoreData.score}`;
+        highScoreList.appendChild(listItem);
+      });
+  
+      // Append the ordered list to the high-score container
+      highScoreContainer.appendChild(highScoreList);
+    } catch (error) {
+      console.error('Error retrieving high scores:', error);
+    }
+  }

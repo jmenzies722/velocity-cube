@@ -2,147 +2,153 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
-  background-color: black;
-  overflow: hidden; 
-  position: relative; 
+  background-color: #000;
+  overflow: hidden;
+  position: relative;
+}
+
+body, .title, #google-sign {
+  font-family: 'Montserrat', sans-serif;
 }
 
 /* Style for the blurred background */
 .blurry-background {
-  background-image: url('/Screenshot\ 2023-09-14\ at\ 2.06.58\ PM.png');
+  background-image: url('/Screenshot\ 2023-09-15\ at\ 12.12.13\ PM.png');
   filter: blur(10px); /* Apply a blur effect */
   position: fixed;
-  top: 20px;
-  left: 300px;
-  width: 100vh; /* Set width to 100vh for full viewport coverage */
-  height: 100vh; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: -1;
   background-size: cover;
-  background-size: contain; /* Fit the image within the viewport */
   background-repeat: no-repeat;
   background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center; 
+  opacity: 0.8; /* Slightly reduce opacity for a neon effect */
 }
-
-
 
 /* Center content vertically and horizontally */
 html, body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
 }
 
 /* Style for the title */
 .title {
-  font-size: 36px;
+  font-size: 48px; /* Increased font size for proportionality */
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: 2px; /* Adjusted letter-spacing for readability */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  color: #0aebc5;
+  background: linear-gradient(to right, #0bb4a8, #b30aeb); /* Gradient from Google Blue to Neon Turquoise */
+  -webkit-background-clip: text; /* Clip text to the background */
+  color: transparent; /* Make the text transparent to reveal the gradient */
   margin-bottom: 20px;
 }
 
-/* Style for the play button container */
-.play-button-container {
-  text-align: center;
-}
-
-/* Style for the play button */
-#play-button {
-  background-color: #00b9e2; 
-  color: #ffffff; 
-  font-size: 16px; 
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  padding: 10px 20px; 
-  border: none;
-  border-radius: 10px; 
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); 
-}
-
-/* Hover effect for the play button */
-#play-button:hover {
-  background-color: #0aebc5; /* Bright turquoise on hover */
-}
-
-/* Style for the score container, high score, and level text */
 .score-container {
-  font-size: 18px;
   display: flex;
-  flex-direction: row; 
-  justify-content: center; 
-  align-items: center; 
-  text-align: center;
-  margin-top: 10px; 
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px; /* Adjusted padding */
+  border: 2px solid #0ae0eb;
+  border-radius: 5px; /* Adjusted border radius */
+  margin-right: 10px;
+  transition: all 0.3s ease-in-out;
 }
 
-/* Style for the game title */
-.game-title {
-  font-size: 36px;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  color: #0aebc5;
-  margin-top: 20px; 
-  text-align: center; 
-  position: absolute; 
-  top: -60px; 
-  left: 0;
-  right: 0;
-}
-
-.score-container .score,
-.score-container .high-score,
-.score-container #level-text {
+/* Style for the score text */
+.score-container .score {
   color: #0ae0eb;
-  font-size: 20px; 
-  font-family: 'Roboto', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease-in-out;
-  padding: 10px 20px;
-  border: 2px solid #0352ba;
-  border-radius: 10px;
-  width: auto; 
-  margin-right: 20px; 
+  margin-right: 10px;
 }
 
+/* Style for the high score text */
 .score-container .high-score {
-  font-size: 15px;
+  color: #0ae0eb;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
+/* Style for the level overlay */
 #level-overlay {
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   padding: 2px;
 }
 
+/* Style for the level text */
 #level-text {
-  color: #ffffff;
-  font-size: 20x;
-}
-
-canvas {
-  display: block;
-  margin: 0 auto;
-  top: 50px;
-}
-
-.title {
-  color: #0aebc5;
-  font-size: 36px;
-  font-family: 'Roboto', sans-serif;
+  color: #0ae0eb;
+  font-size: 18px;
+  font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  margin-top: 20px;
+  margin: 0;
 }
+
+/* Style for the Google Sign-In button */
+#google-sign {
+  background: linear-gradient(to right, #0bb4a8, #b30aeb); /* Gradient from Google Blue to Neon Turquoise */
+  color: #000000; /* White text */
+  margin-left: 20px;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Adjusted transitions */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Google icon styling */
+#google-sign i {
+  margin-right: 10px;
+  font-size: 24px; /* Adjust the size of the Google icon */
+}
+
+/* Hover effect for the Google Sign-In button */
+#google-sign:hover {
+  transform: scale(1.05); /* Scale the button on hover */
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7); /* Increase shadow size on hover */
+}
+
+#sign-out {
+  background: linear-gradient(to right, #0bb4a8, #b30aeb);
+  color: #000000; /* White text */
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 5px 15px; /* Adjusted padding */
+  border: none;
+  border-radius: 5px; /* Adjusted border radius */
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Adjusted transitions */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 10px; /* Adjusted top position */
+  right: 10px; /* Adjusted right position */
+}
+
+/* Hover effect for the sign-out button */
+#sign-out:hover {
+  transform: scale(1.05); /* Scale the button on hover */
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7); /* Increase shadow size on hover */
+}
+
