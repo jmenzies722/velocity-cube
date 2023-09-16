@@ -12,7 +12,6 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-
 </head>
 <body>
     <div class="start-screen">
@@ -20,11 +19,13 @@
         <div class="play-button-container">
             <div class="title">Velocity Cube</div>
             <button id="google-sign" onclick="signInWithGoogle()">
-                <i class="fab fa-google"></i> Sign With Google To Play Now
+                <i class="fab fa-google"></i> Sign With Google
             </button>
-              </div>
-              
         </div>
+        <button id="music-control">
+            <i class="fas fa-pause"></i> <!-- Font Awesome pause icon -->
+            <i class="fas fa-play" style="display: none;"></i> <!-- Font Awesome play icon (initially hidden) -->
+        </button>
     </div>
     
     <div class="game-screen" style="display: none;">
@@ -36,10 +37,15 @@
                 <p id="level-text">Level: 1</p>
             </div>
         </div>
+        <button id="music-control-game-screen">
+            <i class="fas fa-pause"></i> <!-- Font Awesome pause icon -->
+            <i class="fas fa-play" style="display: none;"></i> <!-- Font Awesome play icon (initially hidden) -->
+        </button>
         <div id="ThreeJS"></div>
-        <audio src="sound/explode.mp3" preload="auto" id="explode_sound"></audio>
+        <audio src="/sound/explode.mp3" preload="auto" id="explode_sound"></audio>
         <button id="sign-out">Sign Out</button>
     </div>
+    <audio src="/sound/stranger-things-124008.mp3" preload="auto" id="game-music" loop></audio>
     <script type="module" src="js/firebaseConfig.js"></script>
     <script type="module" src="js/index.js"></script>
 </body>

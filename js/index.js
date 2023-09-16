@@ -19,7 +19,44 @@ let highScoreText = document.getElementById("high-score");
 
 const gameScreen = document.querySelector('.game-screen');
 const startScreen = document.querySelector('.start-screen');
-const signOutButton = document.getElementById('sign-out'); // Add a sign-out button
+const signOutButton = document.getElementById('sign-out'); // Add a sign-out button'
+
+const musicControlButton = document.getElementById("music-control");
+const gameMusic = document.getElementById("game-music");
+const playIcon = document.querySelector("#music-control .fa-play");
+const pauseIcon = document.querySelector("#music-control .fa-pause");
+
+musicControlButton.addEventListener("click", function () {
+  if (gameMusic.paused) {
+    // If the music is paused, play it
+    gameMusic.play();
+    playIcon.style.display = "none";
+    pauseIcon.style.display = "inline-block";
+  } else {
+    // If the music is playing, pause it
+    gameMusic.pause();
+    playIcon.style.display = "inline-block";
+    pauseIcon.style.display = "none";
+  }
+});
+
+const playyIcon = document.querySelector("#music-control-game-screen .fa-play");
+const pauseeIcon = document.querySelector("#music-control-game-screen .fa-pause");
+
+document.getElementById("music-control-game-screen").addEventListener("click", function () {
+  if (gameMusic.paused) {
+    // If the music is paused, play it
+    gameMusic.play();
+    playyIcon.style.display = "none";
+    pauseeIcon.style.display = "inline-block";
+  } else {
+    // If the music is playing, pause it
+    gameMusic.pause();
+    playyIcon.style.display = "inline-block";
+    pauseeIcon.style.display = "none";
+  }
+});
+
 
 const googleSignInButton = document.getElementById('google-sign');
 googleSignInButton.addEventListener('click', () => {
@@ -191,6 +228,11 @@ function update() {
     crash = false;
   }
   if (crash) {
+    // Play the explosion sound
+    const explosionSound = document.getElementById("explode_sound");
+    explosionSound.currentTime = 0; // Reset the sound to the beginning in case it's already playing
+    explosionSound.play();
+
     // Call the resetGame function to reset the game
     resetGame();
     updateHighScore();
@@ -291,14 +333,6 @@ async function retrieveAndDisplayHighScores() {
     // Create an ordered list to display the high scores
     const highScoreList = document.createElement('ul');
     highScoreList.className = 'high-score-list'; // Apply the new class
-
-    // Display the high scores
-    highScores.forEach((scoreData, index) => {
-      const listItem = document.createElement('li');
-      listItem.className = 'high-score-entry'; // Apply the new class
-      listItem.innerHTML = `${scoreData.userId}: <span class="${scoreData.userId === auth.currentUser?.uid ? 'user-high-score' : ''}">${scoreData.score}</span>`; // Highlight the user's own high score
-      highScoreList.appendChild(listItem);
-    });
 
     // Append the ordered list to the high-score container
     highScoreContainer.appendChild(highScoreList);

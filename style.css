@@ -9,10 +9,9 @@ body {
 }
 
 /* Style for the blurred background */
-/* Style for the blurred background */
 .blurry-background {
   background-image: url('/Screenshot\ 2023-09-15\ at\ 12.12.13\ PM.png');
-  filter: blur(10px); /* Apply a blur effect */
+  filter: blur(10px);
   position: fixed;
   top: 0;
   left: 0;
@@ -20,13 +19,12 @@ body {
   height: 100%;
   z-index: -1;
   background-size: cover;
-  background-position: center center; /* Center the background image both horizontally and vertically */
+  background-position: center center;
   background-repeat: no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 
 /* Center content vertically and horizontally */
 html,
@@ -38,7 +36,6 @@ body {
   align-items: center;
 }
 
-
 /* Style for the title */
 .title {
   font-size: 36px;
@@ -46,13 +43,11 @@ body {
   letter-spacing: 1px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   background: linear-gradient(to right, #0bb4a8, #b30aeb);
-  -webkit-background-clip: text; /* For WebKit-based browsers */
-  background-clip: text; /* Standard property for text clipping */
+  -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
   margin-bottom: 20px;
 }
-
-
 
 /* Style for the score container, high score, and level text */
 .score-container {
@@ -63,7 +58,7 @@ body {
   align-items: center;
   text-align: center;
   margin-top: 10px;
-  gap: 20px; /* Add gap between score containers */
+  gap: 20px;
 }
 
 /* Style for the game title */
@@ -81,6 +76,7 @@ body {
   right: 0;
 }
 
+/* Styling for scores, high score, and level text */
 .score-container .score,
 .score-container .high-score,
 .score-container #level-text {
@@ -95,31 +91,34 @@ body {
   border: 2px solid #0352ba;
   border-radius: 10px;
   width: auto;
-  /* margin-right: 20px; Remove this line to allow containers to be side by side */
 }
 
+/* Styling for high score */
 .score-container .high-score {
   font-size: 20px;
 }
 
+/* Styling for level overlay */
 #level-overlay {
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   padding: 2px;
 }
 
+/* Styling for level text */
 #level-text {
   color: #ffffff;
   font-size: 20px;
 }
 
+/* Styling for canvas */
 canvas {
   display: block;
   margin: 0 auto;
   top: 50px;
 }
 
-/* Style for the Google Sign-In button */
+/* Styling for Google Sign-In button */
 #google-sign {
   background: linear-gradient(to right, #0bb4a8, #b30aeb);
   color: #000000;
@@ -128,9 +127,9 @@ canvas {
   letter-spacing: 1px;
   padding: 10px 20px;
   border: none;
-  border-radius: 15px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: transform 0.3s cubic-bezier(0.25, 0.45, 0.45, 0.95), box-shadow 0.3s cubic-bezier(0.25, 0.45, 0.45, 0.95);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
@@ -139,18 +138,19 @@ canvas {
   overflow: hidden;
 }
 
-/* Google icon styling */
+/* Styling for Google icon */
 #google-sign i {
   margin-right: 10px;
   font-size: 18px;
 }
 
-/* Hover effect for the Google Sign-In button */
+/* Hover effect for Google Sign-In button */
 #google-sign:hover {
   transform: scale(1.05);
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
 }
 
+/* Styling for Sign-Out button */
 #sign-out {
   background: linear-gradient(to right, #0bb4a8, #b30aeb);
   color: #000000;
@@ -164,12 +164,81 @@ canvas {
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   position: absolute;
-  top: 15px; /* Adjusted to top */
-  left: 50%; /* Centered horizontally */
-  transform: translateX(-50%); /* Center horizontally */
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
+/* Hover effect for Sign-Out button */
 #sign-out:hover {
-  transform: translate(-50%, -3px); /* Move the button 5px upwards and keep it centered horizontally */
+  transform: translate(-50%, -3px);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
+}
+
+/* Styling for the "Pause/Play" button */
+#music-control {
+  background: linear-gradient(to right, #0bb4a8, #b30aeb);
+  color: #000000;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.25, 0.45, 0.45, 0.95), box-shadow 0.3s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  overflow: hidden;
+}
+
+/* Styling for music icon */
+#music-icon {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* Hover effect for "Pause/Play" button */
+#music-control:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
+}
+
+/* Styling for "Pause/Play" button on the game screen */
+#music-control-game-screen {
+  background: linear-gradient(to right, #0bb4a8, #b30aeb);
+  color: #000000;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.25, 0.45, 0.45, 0.95), box-shadow 0.3s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  overflow: hidden;
+}
+
+/* Styling for music icon on the game screen */
+#music-control-game-screen i {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* Hover effect for "Pause/Play" button on the game screen */
+#music-control-game-screen:hover {
+  transform: scale(1.05);
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
 }
